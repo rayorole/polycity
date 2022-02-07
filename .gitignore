@@ -37,3 +37,6 @@ yarn.lock
 
 # typescript
 *.tsbuildinfo
+
+# contracts
+/cache
