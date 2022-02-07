@@ -1,18 +1,30 @@
-// const { expect } = require("chai");
-// const { ethers } = require("ethers");
+const { expect } = require("chai");
+const { ethers } = require("ethers");
 
-// describe("Polycity contract", () => {
-//   let Token, token, owner, addr1, addr2;
+describe("Polycity contract", () => {
+  it("Should return the correct name", async function () {
+    const Polycity = await hre.ethers.getContractFactory("Polycity");
+    const PolycityDeployed = await Polycity.deploy();
 
-//   beforeEach(async () => {
-//     Token = await ethers.getContractfactory("Polycity");
-//     token = await Token.deploy();
-//     [owner, addr1, addr2, _] = await ethers.getSigners();
-//   });
+    await PolycityDeployed.deployed();
+    expect(await PolycityDeployed.name()).to.equal("Polycity");
+  });
 
-//   describe("Deployment", () => {
-//     it("Should set the right owner", async () => {
-//       expect(await token.owner()).to.equal(owner.address);
-//     });
-//   });
-// });
+  it("Should return the correct symbol", async function () {
+    const Polycity = await hre.ethers.getContractFactory("Polycity");
+    const PolycityDeployed = await Polycity.deploy();
+
+    await PolycityDeployed.deployed();
+    expect(await PolycityDeployed.symbol()).to.equal("POLYC");
+  });
+
+  it("Should mint correctly", async function () {
+    const Polycity = await hre.ethers.getContractFactory("Polycity");
+    const PolycityDeployed = await Polycity.deploy();
+
+    await PolycityDeployed.deployed();
+    await PolycityDeployed.mint();
+
+    expect(await PolycityDeployed.totalSupply()).to.equal(1);
+  });
+});
