@@ -12,10 +12,10 @@ contract Polycity is ERC721 {
 
     function mint() public returns (uint256) {
         _tokenIds.increment();
-        uint256 newItemId = _tokenIds.current();
+        uint256 _newId = _tokenIds.current();
 
-        _mint(msg.sender, newItemId);
-        return newItemId;
+        _safeMint(msg.sender, _newId);
+        return _newId;
     }
 
     function totalSupply() public view returns (uint256) {
