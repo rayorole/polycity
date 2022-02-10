@@ -8,14 +8,42 @@ contract Polycity is ERC721 {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    constructor() ERC721("Polycity", "POLYC") {}
+    uint256 public constant landPrice = 80000000000000000; // Or 0.08 Ether
+    uint256 public constant maxLand = 6;
+    uint256 public constant LAND = 12000;
+    bool public saleIsActive = true;
 
-    function mint() public returns (uint256) {
-        _tokenIds.increment();
-        uint256 newItemId = _tokenIds.current();
+    address public owner;
 
-        _mint(msg.sender, newItemId);
-        return newItemId;
+    constructor() ERC721("Polycity", "POLYC") {
+        owner = msg.sender;
+        reserveLand();
+    }
+
+    function mint(uint256 landAmount) public {
+        require(saleIsActive, "Sale must be active");
+        require(landAmount <= maxLand, "Can only mint 6 at a time");
+        require(
+            totalSupply() + landAmount <= LAND,
+            "Purchase exceeds max supply"
+        );
+
+        for (uint256 i = 0; i < landAmount; i++) {
+            uint256 mintIndex = totalSupply();
+            if (totalSupply() < LAND) {
+                _safeMint(msg.sender, mintIndex);
+            }
+        }
+    }
+
+    function reserveLand() public {
+        require(msg.sender == owner, "Only owner");
+
+        uint256 supply = totalSupply();
+        uint256 i;
+        for (i = 0; i < 30; i++) {
+            _safeMint(msg.sender, supply + i);
+        }
     }
 
     function totalSupply() public view returns (uint256) {

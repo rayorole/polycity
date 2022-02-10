@@ -23,8 +23,8 @@ describe("Polycity contract", () => {
     const PolycityDeployed = await Polycity.deploy();
 
     await PolycityDeployed.deployed();
-    await PolycityDeployed.mint();
+    // await PolycityDeployed.mint(1);
 
-    expect(await PolycityDeployed.totalSupply()).to.equal(1);
+    expect(await PolycityDeployed.totalSupply()).to.equal(30);
   });
 });
